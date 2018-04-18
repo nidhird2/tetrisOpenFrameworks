@@ -1,6 +1,6 @@
 #include "ofApp.h"
-//#include "tetromino.cpp"
-
+#include "gameboard.h"
+#include "tetromino.h"
 //--------------------------------------------------------------
 void ofApp::setup(){
 
@@ -13,9 +13,15 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	ofSetColor(200, 30, 30);
-	//tetromino new_shape = tetromino();
-	ofDrawRectangle(100, 100, 10, 10);
+	tetromino new_shape = tetromino();
+	new_shape.draw(150, 0);
+	new_shape.rotate();
+	new_shape.draw(150, 150);
+	new_shape.rotate();
+	new_shape.draw(250, 150);
+	new_shape.rotate();
+	new_shape.draw(150, 250);
+	new_shape.rotate();
 }
 
 //--------------------------------------------------------------
