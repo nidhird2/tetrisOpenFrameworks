@@ -4,11 +4,18 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 	tetris = game();
+	frameNumber = 0;
+	ofSetFrameRate(60);
+	ofSetBackgroundColor(ofColor::black);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	tetris.draw();
+	if ((ofGetElapsedTimeMillis() - frameNumber > SPEED)) {
+		tetris.ForceShapeDown();
+	}
+	frameNumber = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------

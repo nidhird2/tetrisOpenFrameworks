@@ -24,5 +24,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		game tetris;
+		static const int SPEED = 55;
+		unsigned long long frameNumber;
 		
 };
