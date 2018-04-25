@@ -9,7 +9,6 @@ public:
 	std::vector<std::vector<ofColor>> board;
 	int lines_cleared;
 	int score_;
-	bool make_new_shape;
 	tetromino current;
 	int xPos;
 	int yPos;
@@ -25,6 +24,7 @@ public:
 	void KeyPressed(int key);
 	void draw();
 	void addCurrentToBoard();
+	bool checkOverlap(int x, int y);
 };
 
 int const nGameboard_width = 10;

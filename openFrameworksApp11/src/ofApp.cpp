@@ -6,11 +6,11 @@
 void ofApp::setup() {
 	tetris = game();
 	ofSetBackgroundColor(ofColor::black);
+	tetris.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	tetris.draw();
 	this_thread::sleep_for(50ms);
 	nSpeedCount++;
 	if (nSpeedCount == nSpeed) {
@@ -21,11 +21,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	//tetromino new_shape = tetromino();
-	//new_shape.draw(150, 0, 15);
-
-	//game1.current.draw(150, 0, 30);
-	tetris.current.draw(tetris.xPos, tetris.yPos, nGrid_scale);
+	tetris.draw();
+	//tetris.current.draw(tetris.xPos,tetris.yPos,nGrid_scale);
 }
 
 //--------------------------------------------------------------
@@ -33,9 +30,6 @@ void ofApp::keyPressed(int key) {
 	//game1.draw();
 	//tetris.KeyPressed(key);
 	//game1.draw();
-
-
-
 }
 
 //--------------------------------------------------------------

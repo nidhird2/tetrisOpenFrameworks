@@ -1,5 +1,6 @@
 #include "game.h"
 #include <array>
+#include <vector>
 
 game::game() {
 	board = std::vector <std::vector <ofColor>>(nGameboard_width, std::vector <ofColor>(nGameboard_height));
@@ -11,15 +12,60 @@ game::game() {
 }
 
 bool game::CheckLeftCollision(int x, int y) {
-
+	std::vector<std::vector<bool>> reference = current.getOrientation();
+	if (x <= -4) {
+		return true;
+	} else if (x < 0) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (reference[i][j] == true && (x + i) < 0) {
+					return true;
+				}
+			}
+		}
+	} else if (checkOverlap(xPos - 1, yPos)) {
+		return true;
+	}
+	return false;
 }
 
 bool game::CheckRightCollision(int x, int y) {
-
+	if (x > nGameboard_width) {
+		return true;
+	} 
+	else if (x > nGameboard_width - 4) {
+		std::vector<std::vector<bool>> reference = current.getOrientation();
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (reference[i][j] == true && (x + i) >= nGameboard_width) {
+					return true;
+				}
+			}
+		}
+	}
+	else if (checkOverlap(xPos + 1, yPos)) {
+		return true;
+	}
+	return false;
 }
 
 bool game::CheckBottomCollision(int x, int y) {
-
+	if (y > nGameboard_height) {
+		return true;
+	}
+	std::vector<std::vector<bool>> reference = current.getOrientation();
+	
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (reference[i][j] == true && (yPos + j >= nGameboard_height - 1)) {
+				return true;
+			}
+		}
+	} 
+	if (checkOverlap(xPos, yPos + 1)) {
+		return true;
+	}
+	return false;
 }
 
 bool game::IsGameOver() {
@@ -36,16 +82,13 @@ void game::ClearLines() {
 }
 
 void game::ForceShapeDown() {
-	yPos++;
+	KeyPressed(OF_KEY_DOWN);
 }
 
 void game::MakeNewShape() {
-	if (make_new_shape) {
 		current = tetromino();
 		xPos = nGameboard_width / 2;
 		yPos = 0;
-		make_new_shape = false;
-	}
 }
 
 void game::KeyPressed(int key) {
@@ -68,6 +111,7 @@ void game::KeyPressed(int key) {
 		}
 		else {
 			addCurrentToBoard();
+			MakeNewShape();
 		}
 	}
 }
@@ -81,70 +125,12 @@ void game::draw() {
 			}
 		}
 	}
-	//current.draw(xPos, yPos, nGrid_scale);
+	current.draw(xPos, yPos, nGrid_scale);
 }
 
 void game::addCurrentToBoard() {
-	Type shape = current.getShape();
-	bool reference[4][4];
-	int color_index = -1;
-	switch (shape) {
-	case(O_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = o_positions[i][j];
-			}
-		}
-		color_index = 0;
-		break;
-	case(I_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[current.getRotation()][i][j];
-			}
-		}
-		color_index = 1;
-		break;
-	case(J_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = j_positions[current.getRotation()][i][j];
-			}
-		}
-		color_index = 2;
-		break;
-	case(L_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = l_positions[current.getRotation()][i][j];
-			}
-		}
-		color_index = 3;
-		break;
-	case(S_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = s_positions[current.getRotation()][i][j];
-			}
-		}
-		break;
-		color_index = 4;
-	case(Z_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = z_positions[current.getRotation()][i][j];
-			}
-		}
-		color_index = 5;
-		break;
-	default:
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
-				reference[i][j] = t_positions[current.getRotation()][i][j];
-			}
-		}
-		color_index = 6;
-	}
+	std::vector<std::vector<bool>> reference = current.getOrientation();
+	int color_index = current.getColorIndex();
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -153,6 +139,18 @@ void game::addCurrentToBoard() {
 			}
 		}
 	}
+}
+
+bool game::checkOverlap(int x, int y) {
+	std::vector<std::vector<bool>> reference = current.getOrientation();
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (reference[i][j] == true && ((x + i) > 0) && ((x + i) < nGameboard_width) && ((y+j) < nGameboard_height) && board[x+i][y+j] != ofColor::white) {
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 

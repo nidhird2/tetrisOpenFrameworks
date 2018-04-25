@@ -1,10 +1,11 @@
 #pragma once
 #include "tetromino.h"
 #include <cstdlib>
+#include <vector>
 
 
 tetromino::tetromino() {
-	int random = 2;
+	int random = 1;
 	switch (random) {
 		case(0):
 			shape = O_SHAPE;
@@ -118,6 +119,79 @@ void tetromino::rotate() {
 		rotations++;
 	}
 }
+std::vector<std::vector<bool>> tetromino::getOrientation() {
+	std::vector<std::vector<bool>> reference(10, std::vector<bool>(10));
+	switch (shape) {
+	case(O_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = o_positions[i][j];
+			}
+		}
+		break;
+	case(I_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+		break;
+	case(J_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+		break;
+	case(L_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+		break;
+	case(S_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+		break;
+	case(Z_SHAPE):
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+		break;
+	default:
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				reference[i][j] = i_positions[rotations][i][j];
+			}
+		}
+	}
+	return reference;
+}
+int tetromino::getColorIndex() {
+	switch (shape) {
+	case(O_SHAPE):
+		return 0;
+	case(I_SHAPE):
+		return 1;
+	case(J_SHAPE):
+		return 2;
+	case(L_SHAPE):
+		return 3;
+	case(S_SHAPE):
+		return 4;
+	case(Z_SHAPE):
+		return 5;
+	default:
+		return 6;
+	}
+}
+
 
 
 

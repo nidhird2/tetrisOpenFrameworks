@@ -27,6 +27,8 @@ public:
 	int getRotation();
 	void draw(int xPos, int yPos, int grid_scale);
 	void rotate();
+	std::vector<std::vector<bool>> getOrientation();
+	int getColorIndex();
 };
 
 const bool i_positions[4][4][4] = { { { 0, 0, 0, 0 },{ 1, 1, 1, 1 },{ 0, 0, 0, 0 },{ 0, 0, 0, 0 } },
