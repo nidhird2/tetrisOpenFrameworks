@@ -10,9 +10,18 @@ game::game() {
 	yPos = 0;
 }
 
-bool game::CheckIfCollision(int x, int y) {
-	return false;
+bool game::CheckLeftCollision(int x, int y) {
+
 }
+
+bool game::CheckRightCollision(int x, int y) {
+
+}
+
+bool game::CheckBottomCollision(int x, int y) {
+
+}
+
 bool game::IsGameOver() {
 	for (int j = 0; j < nGameboard_width; j++) {
 		if (board[0][j] != ofColor::white) {
@@ -44,18 +53,21 @@ void game::KeyPressed(int key) {
 		current.rotate();
 	}
 	else if (key == OF_KEY_LEFT) {
-		if (!CheckIfCollision(xPos - 1, yPos)) {
+		if (!CheckLeftCollision(xPos - 1, yPos)) {
 			xPos--;
 		}
 	}
 	else if (key == OF_KEY_RIGHT) {
-		if (!CheckIfCollision(xPos + 1, yPos)) {
+		if (!CheckRightCollision(xPos + 1, yPos)) {
 			xPos++;
 		}
 	}
 	else if (key == OF_KEY_DOWN) {
-		if (!CheckIfCollision(xPos, yPos + 1)) {
+		if (!CheckBottomCollision(xPos, yPos + 1)) {
 			yPos++;
+		}
+		else {
+			addCurrentToBoard();
 		}
 	}
 }

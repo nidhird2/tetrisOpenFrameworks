@@ -15,7 +15,9 @@ public:
 	int yPos;
 public:
 	game();
-	bool CheckIfCollision(int x, int y);
+	bool CheckLeftCollision(int x, int y);
+	bool CheckRightCollision(int x, int y);
+	bool CheckBottomCollision(int x, int y);
 	bool IsGameOver();
 	void ClearLines();
 	void ForceShapeDown();
@@ -27,4 +29,4 @@ public:
 
 int const nGameboard_width = 10;
 int const nGameboard_height = 18;
-int const nGrid_scale = 30;
+int const nGrid_scale = 25;

@@ -2,20 +2,21 @@
 #include "game.h"
 #include <cstdlib>
 //--------------------------------------------------------------
+// got timing idea/code from: https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_Tetris.cpp
 void ofApp::setup() {
 	tetris = game();
-	frameNumber = 0;
-	ofSetFrameRate(60);
 	ofSetBackgroundColor(ofColor::black);
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	tetris.draw();
-	if ((ofGetElapsedTimeMillis() - frameNumber > SPEED)) {
+	this_thread::sleep_for(50ms);
+	nSpeedCount++;
+	if (nSpeedCount == nSpeed) {
+		nSpeedCount = 0;
 		tetris.ForceShapeDown();
 	}
-	frameNumber = ofGetElapsedTimeMillis();
 }
 
 //--------------------------------------------------------------
