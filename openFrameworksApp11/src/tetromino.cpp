@@ -44,7 +44,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (o_positions[i][j] == true) {
 					ofSetColor(colors[0]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -54,7 +54,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (i_positions[rotations][i][j] == true) {
 					ofSetColor(colors[1]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -64,7 +64,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (j_positions[rotations][i][j] == true) {
 					ofSetColor(colors[2]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -74,7 +74,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (l_positions[rotations][i][j] == true) {
 					ofSetColor(colors[3]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -84,7 +84,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (s_positions[rotations][i][j] == true) {
 					ofSetColor(colors[4]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -94,7 +94,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (z_positions[rotations][i][j] == true) {
 					ofSetColor(colors[5]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
@@ -104,7 +104,7 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 			for (int j = 0; j < 4; j++) {
 				if (t_positions[rotations][i][j] == true) {
 					ofSetColor(colors[6]);
-					ofDrawRectangle(xPos + grid_scale * i, yPos + grid_scale * j, grid_scale, grid_scale);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}

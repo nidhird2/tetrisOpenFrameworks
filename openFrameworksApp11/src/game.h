@@ -23,7 +23,6 @@ public:
 	void KeyPressed(int key);
 	void draw();
 	void addCurrentToBoard();
-	void canGoDown();
 };
 
 int const nGameboard_width = 10;

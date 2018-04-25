@@ -3,12 +3,12 @@
 #include <cstdlib>
 //--------------------------------------------------------------
 void ofApp::setup() {
-
+	tetris = game();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+	tetris.draw();
 }
 
 //--------------------------------------------------------------
@@ -16,14 +16,15 @@ void ofApp::draw() {
 	//tetromino new_shape = tetromino();
 	//new_shape.draw(150, 0, 15);
 
-	game game1 = game();
-	game1.addCurrentToBoard();
 	//game1.current.draw(150, 0, 30);
-	game1.draw();
+	tetris.current.draw(tetris.xPos, tetris.yPos, nGrid_scale);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
+	//game1.draw();
+	//tetris.KeyPressed(key);
+	//game1.draw();
 
 
 
@@ -31,7 +32,7 @@ void ofApp::keyPressed(int key) {
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
-
+	tetris.KeyPressed(key);
 }
 
 //--------------------------------------------------------------

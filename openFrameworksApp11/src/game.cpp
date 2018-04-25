@@ -40,8 +40,24 @@ void game::MakeNewShape() {
 }
 
 void game::KeyPressed(int key) {
-
-
+	if (key == OF_KEY_UP) {
+		current.rotate();
+	}
+	else if (key == OF_KEY_LEFT) {
+		if (!CheckIfCollision(xPos - 1, yPos)) {
+			xPos--;
+		}
+	}
+	else if (key == OF_KEY_RIGHT) {
+		if (!CheckIfCollision(xPos + 1, yPos)) {
+			xPos++;
+		}
+	}
+	else if (key == OF_KEY_DOWN) {
+		if (!CheckIfCollision(xPos, yPos + 1)) {
+			yPos++;
+		}
+	}
 }
 
 void game::draw() {
@@ -53,6 +69,7 @@ void game::draw() {
 			}
 		}
 	}
+	//current.draw(xPos, yPos, nGrid_scale);
 }
 
 void game::addCurrentToBoard() {
@@ -125,10 +142,6 @@ void game::addCurrentToBoard() {
 		}
 	}
 }
-void canGoDown() {
-}
-
-
 
 
 
