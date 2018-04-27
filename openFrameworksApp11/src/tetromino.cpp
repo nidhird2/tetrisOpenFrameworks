@@ -5,7 +5,7 @@
 
 
 tetromino::tetromino() {
-	int random = 1;
+	int random = rand() % 7;
 	switch (random) {
 		case(0):
 			shape = O_SHAPE;
@@ -112,15 +112,15 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 	}
 }
 void tetromino::rotate() {
-	if (rotations == 3) {
-		rotations = 0;
+	if (rotations == 0) {
+		rotations = 3;
 	}
 	else {
-		rotations++;
+		rotations--;
 	}
 }
 std::vector<std::vector<bool>> tetromino::getOrientation() {
-	std::vector<std::vector<bool>> reference(10, std::vector<bool>(10));
+	std::vector<std::vector<bool>> reference(4, std::vector<bool>(4));
 	switch (shape) {
 	case(O_SHAPE):
 		for (int i = 0; i < 4; i++) {
@@ -139,35 +139,35 @@ std::vector<std::vector<bool>> tetromino::getOrientation() {
 	case(J_SHAPE):
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[rotations][i][j];
+				reference[i][j] = j_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(L_SHAPE):
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[rotations][i][j];
+				reference[i][j] = l_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(S_SHAPE):
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[rotations][i][j];
+				reference[i][j] = s_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(Z_SHAPE):
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[rotations][i][j];
+				reference[i][j] = z_positions[rotations][i][j];
 			}
 		}
 		break;
 	default:
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				reference[i][j] = i_positions[rotations][i][j];
+				reference[i][j] = t_positions[rotations][i][j];
 			}
 		}
 	}

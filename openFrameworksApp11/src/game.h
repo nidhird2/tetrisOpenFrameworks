@@ -14,19 +14,23 @@ public:
 	int yPos;
 public:
 	game();
-	bool CheckLeftCollision(int x, int y);
-	bool CheckRightCollision(int x, int y);
-	bool CheckBottomCollision(int x, int y);
-	bool IsGameOver();
-	void ClearLines();
-	void ForceShapeDown();
-	void MakeNewShape();
-	void KeyPressed(int key);
+	bool ifInLeftBound();
+	bool ifInRightBound();
+	bool checkBottomCollision(int x, int y);
+	bool isGameOver();
+	void clearLines();
+	int findFullLineIndex();
+	void forceShapeDown();
+	void makeNewShape();
+	void keyPressed(int key);
 	void draw();
+	void drawBoundary();
 	void addCurrentToBoard();
 	bool checkOverlap(int x, int y);
 };
 
 int const nGameboard_width = 10;
 int const nGameboard_height = 18;
+int const boundary_weight = 1;
+//ofColor const boundary_color = ofColor::white;
 int const nGrid_scale = 25;
