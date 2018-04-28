@@ -19,7 +19,7 @@ public:
 	bool checkBottomCollision(int x, int y);
 	bool isGameOver();
 	void clearLines();
-	int findFullLineIndex();
+	bool checkIfFullLine(int j_index);
 	void forceShapeDown();
 	void makeNewShape();
 	void keyPressed(int key);

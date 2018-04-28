@@ -16,6 +16,7 @@ void ofApp::update() {
 		nSpeedCount = 0;
 		tetris.forceShapeDown();
 	}
+	tetris.clearLines();
 }
 
 //--------------------------------------------------------------

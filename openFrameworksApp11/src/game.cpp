@@ -72,35 +72,31 @@ bool game::isGameOver() {
 }
 
 void game::clearLines() {
-	int line_to_be_removed = findFullLineIndex();
-	while (line_to_be_removed >= 0) {
-		for (int j = line_to_be_removed; j >= 1; j--) {
-			for (int i = 0; i<nGameboard_width; i++) {
-				board[i][j] = board[i][j - 1];
+	for (int j = nGameboard_height - 1; j >= 0; j--) {
+		if (checkIfFullLine(j)) {
+			lines_cleared++;
+			for (int current = j; current >= 1; current--) {
+				for (int i = 0; i<nGameboard_width; i++) {
+					board[i][current] = board[i][current - 1];
+				}
 			}
-		}
-		for (int i = 0; i < nGameboard_width; i++) {
-			board[i][0] = 0;
+			for (int i = 0; i < nGameboard_width; i++) {
+				board[i][0] = ofColor::white;
+			}
+			if(j != nGameboard_height) {
+				j++;
+			}
 		}
 	}
 }
 
-int game::findFullLineIndex() {
-	int full_line_index = -1;
-	bool streak = true;
-	for (int j = 0; j < nGameboard_height; j++) {
-		streak = true;
-		for (int i = 0; i < nGameboard_width; i++) {
-			if (board[i][j] != ofColor::white) {
-				streak = false;
-				break;
-			}
-			if (streak) {
-				return j;
-			}
+bool game::checkIfFullLine(int j_index) {
+	for (int i = 0; i < nGameboard_width; i++) {
+		if (board[i][j_index] == ofColor::white) {
+			return false;
 		}
 	}
-	return -1;
+	return true;
 }
 
 
