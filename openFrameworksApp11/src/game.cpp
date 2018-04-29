@@ -9,8 +9,9 @@ game::game() {
 	upcoming = tetromino();
 	lines_cleared = 0;
 	score_ = 0;
-	xPos = nGameboard_width/2;
-	yPos = 0;
+	xPos = (nGameboard_width - nTetromino_size) / 2;
+	yPos = 0 - (nTetromino_size/2);
+	nPieceCount = 1;
 }
 
 bool game::ifInLeftBound() {
@@ -45,7 +46,7 @@ bool game::ifInRightBound() {
 	return true;
 }
 
-bool game::checkBottomCollision(int x, int y) {
+bool game::checkIfAtBottom(int x, int y) {
 	if (y >= nGameboard_height) {
 		return true;
 	}
@@ -53,12 +54,12 @@ bool game::checkBottomCollision(int x, int y) {
 	
 	for (int i = 0; i < reference.size(); i++) {
 		for (int j = 0; j < reference[i].size(); j++) {
-			if (reference[i][j] == true && (yPos + j >= nGameboard_height - 1)) {
+			if (reference[i][j] == true && (y + 1 + j >= nGameboard_height)) {
 				return true;
 			}
 		}
 	} 
-	if(checkOverlap(xPos, yPos + 1)) {
+	if(checkOverlap(x, y + 1)) {
 		return true;
 	}
 	return false;
@@ -70,9 +71,9 @@ bool game::isGameOver() {
 			return true;
 		}
 	}
-	if (checkOverlap(xPos, yPos)) {
-		return true;
-	}
+	//if (checkOverlap(xPos, yPos)) {
+	//	return true;
+	//}
 	return false;
 }
 
@@ -110,10 +111,11 @@ void game::forceShapeDown() {
 }
 
 void game::makeNewShape() {
-		current = upcoming;
-		upcoming = tetromino();
-		xPos = nGameboard_width / 2;
-		yPos = 0;
+	nPieceCount++;
+	current = upcoming;
+	upcoming = tetromino();
+	xPos = (nGameboard_width - nTetromino_size) / 2;
+	yPos = 0 - (nTetromino_size / 2);
 }
 
 void game::keyPressed(int key) {
@@ -132,7 +134,7 @@ void game::keyPressed(int key) {
 			xPos++;
 	}
 	else if (key == OF_KEY_DOWN) {
-		if (!checkBottomCollision(xPos, yPos + 1)) {
+		if (!checkIfAtBottom(xPos, yPos)) {
 			yPos++;
 		}else {
 			addCurrentToBoard();
@@ -140,7 +142,7 @@ void game::keyPressed(int key) {
 		}
 	}
 	else if (key == ' ') {
-		while (!checkBottomCollision(xPos, yPos)) {
+		while (!checkIfAtBottom(xPos, yPos)) {
 			keyPressed(OF_KEY_DOWN);
 		}
 	}
@@ -156,6 +158,7 @@ void game::draw() {
 			}
 		}
 	}
+	drawProjection();
 	current.draw(xPos, yPos, nGrid_scale, boundary_scale *boundary_weight);
 }
 
@@ -166,6 +169,9 @@ void game::addCurrentToBoard() {
 	for (int i = 0; i < reference.size(); i++) {
 		for (int j = 0; j < reference[i].size(); j++) {
 			if (reference[i][j] == true) {
+				if (xPos + i < 0 || yPos + j < 0) {
+					ofExit();
+				}
 				board[xPos + i][yPos + j] = colors[color_index];
 			}
 		}
@@ -176,7 +182,7 @@ bool game::checkOverlap(int x, int y) {
 	std::vector<std::vector<bool>> reference = current.getOrientation();
 	for (int i = 0; i < reference.size(); i++) {
 		for (int j = 0; j < reference[i].size(); j++) {
-			if (reference[i][j] == true && ((x + i) >= 0) && ((x + i) < nGameboard_width) && 
+			if (reference[i][j] == true && ((x + i) >= 0) && ((x + i) < nGameboard_width && (y +j) >= 0) && 
 				((y+j) < nGameboard_height) && (board[x+i][y+j] != ofColor::white)) {
 				return true;
 			}
@@ -218,6 +224,16 @@ void game::drawGameInfo() {
 	ofDrawBitmapString("Upcoming: ",
 		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.55 * nGameboard_height * nGrid_scale);
+}
+
+void game::drawProjection() {
+	int x = xPos;
+	int y = yPos;
+	while (!checkIfAtBottom(x, y)) {
+		y++;
+	}
+	current.drawTranslucent(x, y, nGrid_scale, boundary_scale *boundary_weight);
+
 }
 
 

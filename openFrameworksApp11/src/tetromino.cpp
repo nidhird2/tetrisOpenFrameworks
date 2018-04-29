@@ -50,6 +50,20 @@ void tetromino::draw(int xPos, int yPos, int grid_scale, int x_shift_val) {
 			}
 		}
 }
+
+void tetromino::drawTranslucent(int xPos, int yPos, int grid_scale, int x_shift_val) {
+	ofEnableAlphaBlending();
+	std::vector<std::vector<bool>> reference = getOrientation();
+	for (int i = 0; i < nTetromino_size; i++) {
+		for (int j = 0; j < nTetromino_size; j++) {
+			if (reference[i][j] == true) {
+				ofSetColor(colors[getColorIndex()], nTranslucent_val);
+				ofDrawRectangle((xPos + i) * grid_scale + x_shift_val, (yPos + j) * grid_scale, grid_scale, grid_scale);
+			}
+		}
+	}
+	ofDisableAlphaBlending();
+}
 void tetromino::rotate() {
 	if (rotations == 0) {
 		rotations = 3;
