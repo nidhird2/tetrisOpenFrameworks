@@ -10,6 +10,7 @@ public:
 	int lines_cleared;
 	int score_;
 	tetromino current;
+	tetromino upcoming;
 	int xPos;
 	int yPos;
 public:
@@ -27,6 +28,7 @@ public:
 	void drawBoundary();
 	void addCurrentToBoard();
 	bool checkOverlap(int x, int y);
+	void drawGameInfo();
 };
 
 int const nGameboard_width = 10;

@@ -17,12 +17,16 @@ void ofApp::update() {
 		tetris.forceShapeDown();
 	}
 	tetris.clearLines();
+	if (tetris.isGameOver()) {
+		ofExit();
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
 	tetris.drawBoundary();
 	tetris.draw();
+	tetris.drawGameInfo();
 }
 
 //--------------------------------------------------------------
