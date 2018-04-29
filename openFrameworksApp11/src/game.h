@@ -32,5 +32,6 @@ public:
 int const nGameboard_width = 10;
 int const nGameboard_height = 18;
 int const boundary_weight = 1;
+int const boundary_scale = 10;
 //ofColor const boundary_color = ofColor::white;
 int const nGrid_scale = 25;

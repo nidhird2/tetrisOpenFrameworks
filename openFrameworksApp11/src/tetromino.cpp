@@ -41,8 +41,8 @@ int tetromino::getRotation() {
 }
 void tetromino::draw(int xPos, int yPos, int grid_scale) {
 	if (shape == O_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (o_positions[i][j] == true) {
 					ofSetColor(colors[0]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -51,8 +51,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else if (shape == I_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (i_positions[rotations][i][j] == true) {
 					ofSetColor(colors[1]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -61,8 +61,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else if (shape == J_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (j_positions[rotations][i][j] == true) {
 					ofSetColor(colors[2]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -71,8 +71,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else if (shape == L_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (l_positions[rotations][i][j] == true) {
 					ofSetColor(colors[3]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -81,8 +81,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else if (shape == S_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (s_positions[rotations][i][j] == true) {
 					ofSetColor(colors[4]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -91,8 +91,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else if (shape == Z_SHAPE) {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (z_positions[rotations][i][j] == true) {
 					ofSetColor(colors[5]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -101,8 +101,8 @@ void tetromino::draw(int xPos, int yPos, int grid_scale) {
 		}
 	}
 	else {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				if (t_positions[rotations][i][j] == true) {
 					ofSetColor(colors[6]);
 					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
@@ -120,53 +120,53 @@ void tetromino::rotate() {
 	}
 }
 std::vector<std::vector<bool>> tetromino::getOrientation() {
-	std::vector<std::vector<bool>> reference(4, std::vector<bool>(4));
+	std::vector<std::vector<bool>> reference(5, std::vector<bool>(5));
 	switch (shape) {
 	case(O_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = o_positions[i][j];
 			}
 		}
 		break;
 	case(I_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = i_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(J_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = j_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(L_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = l_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(S_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = s_positions[rotations][i][j];
 			}
 		}
 		break;
 	case(Z_SHAPE):
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = z_positions[rotations][i][j];
 			}
 		}
 		break;
 	default:
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
 				reference[i][j] = t_positions[rotations][i][j];
 			}
 		}
