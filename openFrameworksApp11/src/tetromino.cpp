@@ -39,16 +39,77 @@ Type tetromino::getShape() {
 int tetromino::getRotation() {
 	return rotations;
 }
-void tetromino::draw(int xPos, int yPos, int grid_scale, int x_shift_val) {
-	std::vector<std::vector<bool>> reference = getOrientation();
+void tetromino::draw(int xPos, int yPos, int grid_scale) {
+	if (shape == O_SHAPE) {
 		for (int i = 0; i < nTetromino_size; i++) {
 			for (int j = 0; j < nTetromino_size; j++) {
-				if (reference[i][j] == true) {
-					ofSetColor(colors[getColorIndex()]);
-					ofDrawRectangle((xPos + i) * grid_scale + x_shift_val, (yPos + j) * grid_scale, grid_scale, grid_scale);
+				if (o_positions[i][j] == true) {
+					ofSetColor(colors[0]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
 				}
 			}
 		}
+	}
+	else if (shape == I_SHAPE) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (i_positions[rotations][i][j] == true) {
+					ofSetColor(colors[1]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
+	else if (shape == J_SHAPE) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (j_positions[rotations][i][j] == true) {
+					ofSetColor(colors[2]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
+	else if (shape == L_SHAPE) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (l_positions[rotations][i][j] == true) {
+					ofSetColor(colors[3]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
+	else if (shape == S_SHAPE) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (s_positions[rotations][i][j] == true) {
+					ofSetColor(colors[4]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
+	else if (shape == Z_SHAPE) {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (z_positions[rotations][i][j] == true) {
+					ofSetColor(colors[5]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < nTetromino_size; i++) {
+			for (int j = 0; j < nTetromino_size; j++) {
+				if (t_positions[rotations][i][j] == true) {
+					ofSetColor(colors[6]);
+					ofDrawRectangle(grid_scale*(xPos + i), grid_scale*(yPos + j), grid_scale, grid_scale);
+				}
+			}
+		}
+	}
 }
 void tetromino::rotate() {
 	if (rotations == 0) {

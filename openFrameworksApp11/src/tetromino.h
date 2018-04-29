@@ -25,7 +25,7 @@ public:
 	tetromino();
 	Type getShape();
 	int getRotation();
-	void draw(int xPos, int yPos, int grid_scale, int x_shift_val);
+	void draw(int xPos, int yPos, int grid_scale);
 	void rotate();
 	std::vector<std::vector<bool>> getOrientation();
 	int getColorIndex();
