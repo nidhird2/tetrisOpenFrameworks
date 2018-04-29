@@ -1,10 +1,12 @@
 #include "game.h"
 #include <array>
 #include <vector>
+#include <string>
 
 game::game() {
 	board = std::vector <std::vector<ofColor>>(nGameboard_width, std::vector <ofColor>(nGameboard_height));
 	current = tetromino();
+	upcoming = tetromino();
 	lines_cleared = 0;
 	score_ = 0;
 	xPos = nGameboard_width/2;
@@ -68,6 +70,9 @@ bool game::isGameOver() {
 			return true;
 		}
 	}
+	if (checkOverlap(xPos, yPos)) {
+		return true;
+	}
 	return false;
 }
 
@@ -105,7 +110,8 @@ void game::forceShapeDown() {
 }
 
 void game::makeNewShape() {
-		current = tetromino();
+		current = upcoming;
+		upcoming = tetromino();
 		xPos = nGameboard_width / 2;
 		yPos = 0;
 }
@@ -145,11 +151,12 @@ void game::draw() {
 		for (int j = 0; j < board[i].size(); j++)	{
 			if (board[i][j] != ofColor::white) {
 				ofSetColor(board[i][j]);
-				ofDrawRectangle(nGrid_scale*(i + boundary_weight), nGrid_scale*(j + boundary_weight), nGrid_scale, nGrid_scale);
+				ofDrawRectangle((nGrid_scale*i) + (boundary_scale *boundary_weight), nGrid_scale*j, 
+					nGrid_scale, nGrid_scale);
 			}
 		}
 	}
-	current.draw(xPos + boundary_weight, yPos + boundary_weight, nGrid_scale);
+	current.draw(xPos, yPos, nGrid_scale, boundary_scale *boundary_weight);
 }
 
 void game::addCurrentToBoard() {
@@ -169,7 +176,8 @@ bool game::checkOverlap(int x, int y) {
 	std::vector<std::vector<bool>> reference = current.getOrientation();
 	for (int i = 0; i < reference.size(); i++) {
 		for (int j = 0; j < reference[i].size(); j++) {
-			if (reference[i][j] == true && ((x + i) >= 0) && ((x + i) < nGameboard_width) && ((y+j) < nGameboard_height) && (board[x+i][y+j] != ofColor::white)) {
+			if (reference[i][j] == true && ((x + i) >= 0) && ((x + i) < nGameboard_width) && 
+				((y+j) < nGameboard_height) && (board[x+i][y+j] != ofColor::white)) {
 				return true;
 			}
 		}
@@ -179,15 +187,37 @@ bool game::checkOverlap(int x, int y) {
 void game::drawBoundary() {
 	ofSetColor(ofColor::white);
 	//draws vertical boundaries
-	for (int j = 0; j < nGameboard_height + boundary_weight; j++) {
-		ofDrawRectangle(0, j * nGrid_scale, nGrid_scale, nGrid_scale);
-		ofDrawRectangle((nGameboard_width + boundary_weight) * nGrid_scale, j * nGrid_scale, nGrid_scale, nGrid_scale);
+	int right_most_index = (nGrid_scale * nGameboard_width) + (boundary_scale * boundary_weight);
+	for (int j = 0; j < nGameboard_height; j++) {
+		ofDrawRectangle(0, j * nGrid_scale, boundary_scale * boundary_weight, nGrid_scale);
+		ofDrawRectangle(right_most_index, j * nGrid_scale, boundary_scale * boundary_weight, nGrid_scale);
+		
 	}
 	//draw bottom boundary
-	for (int i = 0; i <= nGameboard_width + boundary_weight ; i++) {
-		ofDrawRectangle(i * nGrid_scale, nGrid_scale * (nGameboard_height + boundary_weight), 
-			nGrid_scale, nGrid_scale);
+	for (int i = 0; i < nGameboard_width; i++) {
+		int current_x_index = (i * nGrid_scale) + (boundary_weight * boundary_scale);
+		ofDrawRectangle(current_x_index , nGrid_scale * nGameboard_height , nGrid_scale, 
+			boundary_scale * boundary_weight);
 	}
+	//draw corners
+	ofDrawRectangle(0, nGameboard_height*nGrid_scale, boundary_scale * boundary_weight, 
+		boundary_scale * boundary_weight);
+	ofDrawRectangle(right_most_index, nGameboard_height*nGrid_scale, boundary_scale * boundary_weight,
+		boundary_scale * boundary_weight);
+}
+void game::drawGameInfo() {
+	ofDrawBitmapString("Lines cleared: " + std::to_string(lines_cleared), 
+		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.45 * nGameboard_height * nGrid_scale);
+	ofDrawBitmapString("Score: " + std::to_string(score_),
+		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.50 * nGameboard_height * nGrid_scale);
+
+	upcoming.draw(1.20 * nGameboard_width, 0.6 * nGameboard_height, nGrid_scale, 0);
+
+	ofDrawBitmapString("Upcoming: ",
+		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.55 * nGameboard_height * nGrid_scale);
 }
 
 
