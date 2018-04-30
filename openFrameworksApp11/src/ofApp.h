@@ -24,6 +24,8 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 
 		game tetris;
+		ofRectangle pauseButton;
+		bool is_paused;
 		int nSpeed = 20;
 		int nSpeedCount = 0;
 		

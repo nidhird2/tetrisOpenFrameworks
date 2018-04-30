@@ -6,31 +6,17 @@
 void ofApp::setup() {
 	tetris = game();
 	ofSetBackgroundColor(ofColor::black);
+	tetris.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	this_thread::sleep_for(30ms);
-	nSpeedCount++;
-	if (nSpeedCount == nSpeed) {
-		nSpeedCount = 0;
-		// Update difficulty every 50 pieces
-		if (tetris.nPieceCount % 50 == 0) {
-			if (nSpeed >= 10) nSpeed--;
-		}
-		tetris.forceShapeDown();
-	}
-	tetris.clearLines();
-	if (tetris.isGameOver()) {
-		ofExit();
-	}
+	tetris.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	tetris.drawBoundary();
 	tetris.draw();
-	tetris.drawGameInfo();
 }
 
 //--------------------------------------------------------------
@@ -39,7 +25,7 @@ void ofApp::keyPressed(int key) {
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
-	tetris.keyPressed(key);
+	tetris.keyReleased(key);
 }
 
 //--------------------------------------------------------------
@@ -54,7 +40,7 @@ void ofApp::mouseDragged(int x, int y, int button) {
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button) {
-
+	tetris.mousePressed(x, y, button);
 }
 
 //--------------------------------------------------------------

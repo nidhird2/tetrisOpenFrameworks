@@ -12,6 +12,103 @@ game::game() {
 	xPos = (nGameboard_width - nTetromino_size) / 2;
 	yPos = 0 - (nTetromino_size/2);
 	nPieceCount = 1;
+	isPaused = false;
+	isGameOver = false;
+	needToRestart = false;
+	needToExit = false;
+}
+
+void game::setup() {
+	pauseButton.set(1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.3 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
+	restartButton.set(.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.3 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
+	exitButton.set(.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.4 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
+}
+void game::update() {
+		this_thread::sleep_for(30ms);
+		nSpeedCount++;
+		if (nSpeedCount == nSpeed) {
+			nSpeedCount = 0;
+			// Update difficulty every 50 pieces
+			if (nPieceCount % 50 == 0) {
+				if (nSpeed >= 10) {
+					nSpeed--;
+				}
+			}
+			keyReleased(OF_KEY_DOWN);
+		}
+		clearLines();
+		if (checkIfGameOver()) {
+			isGameOver = true;
+		}
+}
+void game::draw() {
+	if (!isPaused && !isGameOver) {
+		drawGame();
+	}
+	else if (isPaused) {
+		drawPauseScreen();
+	}
+	else {
+		drawGameOverScreen();
+	}
+}
+void game::keyReleased(int key) {
+	if (key == OF_KEY_UP) {
+		current.rotate();
+		if (!ifInLeftBound() || !ifInRightBound() || checkOverlap(xPos, yPos)) {
+			current.rotate();
+			current.rotate();
+			current.rotate();
+		}
+	}
+	else if (key == OF_KEY_LEFT && ifInLeftBound() && !checkOverlap(xPos - 1, yPos)) {
+		xPos--;
+	}
+	else if (key == OF_KEY_RIGHT && ifInRightBound() && !checkOverlap(xPos + 1, yPos)) {
+		xPos++;
+	}
+	else if (key == OF_KEY_DOWN) {
+		if (!checkIfAtBottom(xPos, yPos)) {
+			yPos++;
+		}
+		else {
+			addCurrentToBoard();
+			makeNewShape();
+		}
+	}
+	else if (key == ' ') {
+		while (!checkIfAtBottom(xPos, yPos)) {
+			keyReleased(OF_KEY_DOWN);
+		}
+	}
+}
+void game::mousePressed(int x, int y, int button) {
+	if (pauseButton.inside(x, y)) {
+		isPaused = !isPaused;
+	} else if (restartButton.inside(x, y)) {
+		reset();
+	}
+	else if (exitButton.inside(x, y)) {
+		ofExit();
+	}
+}
+
+void game::reset() {
+	board = std::vector <std::vector<ofColor>>(nGameboard_width, std::vector <ofColor>(nGameboard_height));
+	current = tetromino();
+	upcoming = tetromino();
+	lines_cleared = 0;
+	score_ = 0;
+	xPos = (nGameboard_width - nTetromino_size) / 2;
+	yPos = 0 - (nTetromino_size / 2);
+	nPieceCount = 1;
+	isPaused = false;
+	isGameOver = false;
+	needToRestart = false;
+	needToExit = false;
 }
 
 bool game::ifInLeftBound() {
@@ -65,7 +162,7 @@ bool game::checkIfAtBottom(int x, int y) {
 	return false;
 }
 
-bool game::isGameOver() {
+bool game::checkIfGameOver() {
 	for (int i = 0; i < nGameboard_width; i++) {
 		if (board[i][0] != ofColor::white) {
 			return true;
@@ -105,11 +202,6 @@ bool game::checkIfFullLine(int j_index) {
 	return true;
 }
 
-
-void game::forceShapeDown() {
-	keyPressed(OF_KEY_DOWN);
-}
-
 void game::makeNewShape() {
 	nPieceCount++;
 	current = upcoming;
@@ -118,37 +210,7 @@ void game::makeNewShape() {
 	yPos = 0 - (nTetromino_size / 2);
 }
 
-void game::keyPressed(int key) {
-	if (key == OF_KEY_UP) {
-		current.rotate();
-		if (!ifInLeftBound() || !ifInRightBound() || checkOverlap(xPos, yPos)) {
-			current.rotate();
-			current.rotate();
-			current.rotate();
-		}
-	}
-	else if (key == OF_KEY_LEFT && ifInLeftBound() && !checkOverlap(xPos - 1, yPos)){
-			xPos--;
-	}
-	else if (key == OF_KEY_RIGHT && ifInRightBound() && !checkOverlap(xPos + 1, yPos)) {
-			xPos++;
-	}
-	else if (key == OF_KEY_DOWN) {
-		if (!checkIfAtBottom(xPos, yPos)) {
-			yPos++;
-		}else {
-			addCurrentToBoard();
-			makeNewShape();
-		}
-	}
-	else if (key == ' ') {
-		while (!checkIfAtBottom(xPos, yPos)) {
-			keyPressed(OF_KEY_DOWN);
-		}
-	}
-}
-
-void game::draw() {
+void game::drawGame() {
 	for (int i = 0; i < board.size(); i++) {
 		for (int j = 0; j < board[i].size(); j++)	{
 			if (board[i][j] != ofColor::white) {
@@ -160,6 +222,9 @@ void game::draw() {
 	}
 	drawProjection();
 	current.draw(xPos, yPos, nGrid_scale, boundary_scale *boundary_weight);
+	drawBoundary();
+	drawGameInfo();
+	drawPauseButton();
 }
 
 void game::addCurrentToBoard() {
@@ -170,7 +235,8 @@ void game::addCurrentToBoard() {
 		for (int j = 0; j < reference[i].size(); j++) {
 			if (reference[i][j] == true) {
 				if (xPos + i < 0 || yPos + j < 0) {
-					ofExit();
+					isGameOver = true;
+					return;
 				}
 				board[xPos + i][yPos + j] = colors[color_index];
 			}
@@ -235,6 +301,33 @@ void game::drawProjection() {
 	current.drawTranslucent(x, y, nGrid_scale, boundary_scale *boundary_weight);
 
 }
+void game::drawPauseScreen() {
+	drawPauseButton();
+	ofSetColor(ofColor::white);
+	ofDrawBitmapString("G A M E  P A U S E D", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.25 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::greenYellow);
+	ofRect(restartButton);
+	ofSetColor(ofColor::orangeRed);
+	ofRect(exitButton);
+	
+}
+void game::drawGameOverScreen() {
+	ofSetColor(ofColor::white);
+	ofDrawBitmapString("G A M E  O V E R", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.25 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::greenYellow);
+	ofRect(restartButton);
+	ofSetColor(ofColor::orangeRed);
+	ofRect(exitButton);
+}
+
+void game::drawPauseButton() {
+	ofSetColor(ofColor::lightSeaGreen);
+	ofRect(pauseButton);
+}
+
+
 
 
 
