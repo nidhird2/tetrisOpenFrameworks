@@ -16,7 +16,6 @@ public:
 	int nPieceCount;
 	ofRectangle pauseButton;
 	ofRectangle restartButton;
-	ofRectangle resumeButton;
 	ofRectangle exitButton;
 	bool isPaused;
 	bool isGameOver;
@@ -31,7 +30,7 @@ public:
 	void draw();
 	void keyReleased(int key);
 	void mousePressed(int x, int y, int button);
-public:
+private:
 	void reset();
 	bool ifInLeftBound();
 	bool ifInRightBound();
@@ -45,7 +44,6 @@ public:
 	void drawGameOverScreen();
 	void drawPauseButton();
 	void drawRestartButton();
-	void drawResumeButton();
 	void drawExitButton();
 	void drawBoundary();
 	void addCurrentToBoard();

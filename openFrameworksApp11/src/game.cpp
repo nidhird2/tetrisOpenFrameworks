@@ -20,11 +20,11 @@ game::game() {
 
 void game::setup() {
 	pauseButton.set(1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
-		0.3 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
-	restartButton.set(.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
-		0.3 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
-	exitButton.set(.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
-		0.4 * nGameboard_height * nGrid_scale, nGrid_scale, nGrid_scale);
+		0.3 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
+	restartButton.set(.4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.3 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
+	exitButton.set(.4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.4 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
 }
 void game::update() {
 		this_thread::sleep_for(30ms);
@@ -305,28 +305,44 @@ void game::drawPauseScreen() {
 	drawPauseButton();
 	ofSetColor(ofColor::white);
 	ofDrawBitmapString("G A M E  P A U S E D", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
-		0.25 * nGameboard_height * nGrid_scale);
-	ofSetColor(ofColor::greenYellow);
-	ofRect(restartButton);
-	ofSetColor(ofColor::orangeRed);
-	ofRect(exitButton);
-	
+		0.20 * nGameboard_height * nGrid_scale);
+	drawRestartButton();
+	drawExitButton();
 }
 void game::drawGameOverScreen() {
 	ofSetColor(ofColor::white);
 	ofDrawBitmapString("G A M E  O V E R", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.20 * nGameboard_height * nGrid_scale);
+	ofDrawBitmapString("YOUR SCORE: "+ std::to_string(score_), 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.25 * nGameboard_height * nGrid_scale);
-	ofSetColor(ofColor::greenYellow);
-	ofRect(restartButton);
-	ofSetColor(ofColor::orangeRed);
-	ofRect(exitButton);
+	drawRestartButton();
+	drawExitButton();
 }
 
 void game::drawPauseButton() {
-	ofSetColor(ofColor::lightSeaGreen);
+	ofSetColor(ofColor::magenta);
 	ofRect(pauseButton);
+	ofSetColor(ofColor::white);
+	ofDrawBitmapString("PAUSE", 1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight))+ (nGrid_scale / 2),
+		(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 }
 
+
+void game::drawRestartButton() {
+	ofSetColor(ofColor::cornflowerBlue);
+	ofRect(restartButton);
+	ofSetColor(ofColor::white);
+	ofDrawBitmapString("RESTART", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+}
+void game::drawExitButton() {
+	ofSetColor(ofColor::orangeRed);
+	ofRect(exitButton);
+	ofSetColor(ofColor::white);
+	ofDrawBitmapString("EXIT", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight) + (nGrid_scale / 2)),
+		(0.4 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+
+}
 
 
 
