@@ -14,12 +14,13 @@ game::game() {
 	nPieceCount = 1;
 	isPaused = false;
 	isGameOver = false;
-	needToRestart = false;
-	needToExit = false;
+	needDirections = false;
 }
 
 void game::setup() {
-	pauseButton.set(1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	pauseButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.2 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
+	directionsButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.3 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
 	restartButton.set(.4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.3 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
@@ -45,11 +46,14 @@ void game::update() {
 		}
 }
 void game::draw() {
-	if (!isPaused && !isGameOver) {
+	if (!isPaused && !isGameOver && !needDirections) {
 		drawGame();
 	}
 	else if (isPaused) {
 		drawPauseScreen();
+	} 
+	else if (needDirections) {
+		drawDirections();
 	}
 	else {
 		drawGameOverScreen();
@@ -85,12 +89,17 @@ void game::keyReleased(int key) {
 		}
 	}
 }
+
+
 void game::mousePressed(int x, int y, int button) {
 	if (pauseButton.inside(x, y)) {
 		isPaused = !isPaused;
-	} else if (restartButton.inside(x, y)) {
-		reset();
+	} else if(directionsButton.inside(x, y)) {
+		needDirections = !needDirections;
 	}
+	else if (restartButton.inside(x, y)) {
+		reset();
+	} 
 	else if (exitButton.inside(x, y)) {
 		ofExit();
 	}
@@ -107,8 +116,7 @@ void game::reset() {
 	nPieceCount = 1;
 	isPaused = false;
 	isGameOver = false;
-	needToRestart = false;
-	needToExit = false;
+	needDirections = false;
 }
 
 bool game::ifInLeftBound() {
@@ -211,6 +219,7 @@ void game::makeNewShape() {
 }
 
 void game::drawGame() {
+	ofSetBackgroundColor(ofColor::black);
 	for (int i = 0; i < board.size(); i++) {
 		for (int j = 0; j < board[i].size(); j++)	{
 			if (board[i][j] != ofColor::white) {
@@ -225,6 +234,7 @@ void game::drawGame() {
 	drawBoundary();
 	drawGameInfo();
 	drawPauseButton();
+	drawDirectionsButton();
 }
 
 void game::addCurrentToBoard() {
@@ -319,12 +329,50 @@ void game::drawGameOverScreen() {
 	drawExitButton();
 }
 
+
+void game::drawDirections() {
+	ofSetBackgroundColor(ofColor::lightGrey);
+	drawDirectionsButton();
+	ofSetColor(ofColor::blue);
+	ofDrawBitmapString("Objective: Keep the board empty by placing blocks.", 0 ,0.20 * nGameboard_height * nGrid_scale);
+	ofDrawBitmapString("Everytime a row fills up on the board, it will be", 0, 0.25 * nGameboard_height * nGrid_scale);
+	ofDrawBitmapString("erased and your score will increase. The game", 0, 0.30 * nGameboard_height * nGrid_scale);
+	ofDrawBitmapString("ends when the block reaches the top of the screen.", 0, 0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::red);
+	ofDrawBitmapString("DIRECTIONS:", 0, 0.40 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::green);
+	ofDrawBitmapString("UP ARROW KEY: rotates the piece if possible", 0, 0.45 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::orange);
+	ofDrawBitmapString("LEFT ARROW KEY: shifts pieces left if possible",0, 0.50 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::orchid);
+	ofDrawBitmapString("RIGHT ARROW KEY: shifts piece right if possible", 0, 0.55 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::darkGoldenRod);
+	ofDrawBitmapString("DOWN ARROW KEY: shifts piece down if possible", 0, 0.60 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::chocolate);
+	ofDrawBitmapString("SPACEBAR: moves piece as far down as possible", 0, 0.65 * nGameboard_height * nGrid_scale);
+}
+
 void game::drawPauseButton() {
 	ofSetColor(ofColor::magenta);
 	ofRect(pauseButton);
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("PAUSE", 1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight))+ (nGrid_scale / 2),
-		(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+	ofDrawBitmapString("PAUSE", 1.3* ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) + 
+		(nGrid_scale / 2), (0.2 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+}
+
+
+void game::drawDirectionsButton() {
+	ofSetColor(ofColor::coral);
+	ofRect(directionsButton);
+	ofSetColor(ofColor::white);
+	if (!needDirections) {
+		ofDrawBitmapString("HELP", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) + 
+			(nGrid_scale/2), (0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+	}
+	else {
+		ofDrawBitmapString("EXIT", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) +
+			(nGrid_scale / 2),(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+	}
 }
 
 
@@ -341,8 +389,8 @@ void game::drawExitButton() {
 	ofSetColor(ofColor::white);
 	ofDrawBitmapString("EXIT", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight) + (nGrid_scale / 2)),
 		(0.4 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
-
 }
+
 
 
 

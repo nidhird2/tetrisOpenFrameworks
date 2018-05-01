@@ -5,7 +5,7 @@
 
 
 class game {
-public:
+private:
 	std::vector<std::vector<ofColor>> board;
 	int lines_cleared;
 	int score_;
@@ -15,12 +15,12 @@ public:
 	int yPos;
 	int nPieceCount;
 	ofRectangle pauseButton;
+	ofRectangle directionsButton;
 	ofRectangle restartButton;
 	ofRectangle exitButton;
 	bool isPaused;
 	bool isGameOver;
-	bool needToRestart;
-	bool needToExit;
+	bool needDirections;
 	int nSpeed = 20;
 	int nSpeedCount = 0;
 public:
@@ -42,7 +42,9 @@ private:
 	void drawGame();
 	void drawPauseScreen();
 	void drawGameOverScreen();
+	void drawDirections();
 	void drawPauseButton();
+	void drawDirectionsButton();
 	void drawRestartButton();
 	void drawExitButton();
 	void drawBoundary();

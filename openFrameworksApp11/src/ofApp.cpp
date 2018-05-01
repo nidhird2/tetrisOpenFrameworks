@@ -5,7 +5,6 @@
 // got timing idea/code from: https://github.com/OneLoneCoder/videos/blob/master/OneLoneCoder_Tetris.cpp
 void ofApp::setup() {
 	tetris = game();
-	ofSetBackgroundColor(ofColor::black);
 	tetris.setup();
 }
 
@@ -30,7 +29,7 @@ void ofApp::keyReleased(int key) {
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y) {
-
+	
 }
 
 //--------------------------------------------------------------
