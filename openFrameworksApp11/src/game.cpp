@@ -15,9 +15,15 @@ game::game() {
 	isPaused = false;
 	isGameOver = false;
 	needDirections = false;
+	isBeginning = true;
 }
 
 void game::setup() {
+	backgroundMusic.load("tetrismusic.wav");
+	levelUpSound.load("powerUpSound.wav");
+	tone.load("tone1.wav");
+	backgroundMusic.setLoop(true);
+	backgroundMusic.play();
 	pauseButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.2 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
 	directionsButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
@@ -28,6 +34,7 @@ void game::setup() {
 		0.4 * nGameboard_height * nGrid_scale, 2 * nGrid_scale, nGrid_scale);
 }
 void game::update() {
+	if (!isPaused && !isGameOver && !needDirections && !isBeginning) {
 		this_thread::sleep_for(30ms);
 		nSpeedCount++;
 		if (nSpeedCount == nSpeed) {
@@ -35,6 +42,7 @@ void game::update() {
 			// Update difficulty every 50 pieces
 			if (nPieceCount % 50 == 0) {
 				if (nSpeed >= 10) {
+					levelUpSound.play();
 					nSpeed--;
 				}
 			}
@@ -44,10 +52,15 @@ void game::update() {
 		if (checkIfGameOver()) {
 			isGameOver = true;
 		}
+	}
 }
 void game::draw() {
-	if (!isPaused && !isGameOver && !needDirections) {
+	ofSetBackgroundColor(ofColor::black);
+	if (!isPaused && !isGameOver && !needDirections && !isBeginning) {
 		drawGame();
+	}
+	else if (isBeginning) {
+		drawBeginningScreen();
 	}
 	else if (isPaused) {
 		drawPauseScreen();
@@ -60,6 +73,10 @@ void game::draw() {
 	}
 }
 void game::keyReleased(int key) {
+	if (isBeginning) {
+		isBeginning = false;
+		return;
+	}
 	if (key == OF_KEY_UP) {
 		current.rotate();
 		if (!ifInLeftBound() || !ifInRightBound() || checkOverlap(xPos, yPos)) {
@@ -79,6 +96,7 @@ void game::keyReleased(int key) {
 			yPos++;
 		}
 		else {
+			tone.play();
 			addCurrentToBoard();
 			makeNewShape();
 		}
@@ -219,7 +237,6 @@ void game::makeNewShape() {
 }
 
 void game::drawGame() {
-	ofSetBackgroundColor(ofColor::black);
 	for (int i = 0; i < board.size(); i++) {
 		for (int j = 0; j < board[i].size(); j++)	{
 			if (board[i][j] != ofColor::white) {
@@ -309,6 +326,15 @@ void game::drawProjection() {
 		y++;
 	}
 	current.drawTranslucent(x, y, nGrid_scale, boundary_scale *boundary_weight);
+
+}
+void game::drawBeginningScreen() {
+	ofDrawBitmapString("welcome to tetris", 0.5 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.20 * nGameboard_height * nGrid_scale);
+
+
+	ofDrawBitmapString("press any key to start...", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
 
 }
 void game::drawPauseScreen() {

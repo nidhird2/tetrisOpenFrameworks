@@ -18,9 +18,13 @@ private:
 	ofRectangle directionsButton;
 	ofRectangle restartButton;
 	ofRectangle exitButton;
+	ofSoundPlayer backgroundMusic;
+	ofSoundPlayer levelUpSound;
+	ofSoundPlayer tone;
 	bool isPaused;
 	bool isGameOver;
 	bool needDirections;
+	bool isBeginning;
 	int nSpeed = 20;
 	int nSpeedCount = 0;
 public:
@@ -39,6 +43,7 @@ private:
 	void clearLines();
 	bool checkIfFullLine(int j_index);
 	void makeNewShape();
+	void drawBeginningScreen();
 	void drawGame();
 	void drawPauseScreen();
 	void drawGameOverScreen();
