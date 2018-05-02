@@ -21,6 +21,7 @@ private:
 	ofSoundPlayer backgroundMusic;
 	ofSoundPlayer levelUpSound;
 	ofSoundPlayer tone;
+	ofTrueTypeFont verdana;
 	bool isPaused;
 	bool isGameOver;
 	bool needDirections;

@@ -22,6 +22,9 @@ void game::setup() {
 	backgroundMusic.load("tetrismusic.wav");
 	levelUpSound.load("powerUpSound.wav");
 	tone.load("tone1.wav");
+	verdana.load("verdana.ttf", 10, true, true);
+	verdana.setLineHeight(8.0f);
+	verdana.setLetterSpacing(1.037);
 	backgroundMusic.setLoop(true);
 	backgroundMusic.play();
 	pauseButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
@@ -305,16 +308,16 @@ void game::drawBoundary() {
 		boundary_scale * boundary_weight);
 }
 void game::drawGameInfo() {
-	ofDrawBitmapString("Lines cleared: " + std::to_string(lines_cleared), 
+	verdana.drawString("Lines cleared: " + std::to_string(lines_cleared), 
 		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.45 * nGameboard_height * nGrid_scale);
-	ofDrawBitmapString("Score: " + std::to_string(score_),
+	verdana.drawString("Score: " + std::to_string(score_),
 		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.50 * nGameboard_height * nGrid_scale);
 
 	upcoming.draw(1.20 * nGameboard_width, 0.6 * nGameboard_height, nGrid_scale, 0);
 
-	ofDrawBitmapString("Upcoming: ",
+	verdana.drawString("Upcoming: ",
 		1.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.55 * nGameboard_height * nGrid_scale);
 }
@@ -329,27 +332,27 @@ void game::drawProjection() {
 
 }
 void game::drawBeginningScreen() {
-	ofDrawBitmapString("welcome to tetris", 0.5 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("welcome to tetris", 0.5 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.20 * nGameboard_height * nGrid_scale);
 
 
-	ofDrawBitmapString("press any key to start...", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("press any key to start...", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.35 * nGameboard_height * nGrid_scale);
 
 }
 void game::drawPauseScreen() {
 	drawPauseButton();
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("G A M E  P A U S E D", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("G A M E  P A U S E D", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.20 * nGameboard_height * nGrid_scale);
 	drawRestartButton();
 	drawExitButton();
 }
 void game::drawGameOverScreen() {
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("G A M E  O V E R", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("G A M E  O V E R", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.20 * nGameboard_height * nGrid_scale);
-	ofDrawBitmapString("YOUR SCORE: "+ std::to_string(score_), 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("YOUR SCORE: "+ std::to_string(score_), 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.25 * nGameboard_height * nGrid_scale);
 	drawRestartButton();
 	drawExitButton();
@@ -360,29 +363,29 @@ void game::drawDirections() {
 	ofSetBackgroundColor(ofColor::lightGrey);
 	drawDirectionsButton();
 	ofSetColor(ofColor::blue);
-	ofDrawBitmapString("Objective: Keep the board empty by placing blocks.", 0 ,0.20 * nGameboard_height * nGrid_scale);
-	ofDrawBitmapString("Everytime a row fills up on the board, it will be", 0, 0.25 * nGameboard_height * nGrid_scale);
-	ofDrawBitmapString("erased and your score will increase. The game", 0, 0.30 * nGameboard_height * nGrid_scale);
-	ofDrawBitmapString("ends when the block reaches the top of the screen.", 0, 0.35 * nGameboard_height * nGrid_scale);
+	verdana.drawString("Objective: Keep the board empty by placing blocks.", 0 ,0.20 * nGameboard_height * nGrid_scale);
+	verdana.drawString("Everytime a row fills up on the board, it will be", 0, 0.25 * nGameboard_height * nGrid_scale);
+	verdana.drawString("erased and your score will increase. The game", 0, 0.30 * nGameboard_height * nGrid_scale);
+	verdana.drawString("ends when the block reaches the top of the screen.", 0, 0.35 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::red);
-	ofDrawBitmapString("DIRECTIONS:", 0, 0.40 * nGameboard_height * nGrid_scale);
+	verdana.drawString("DIRECTIONS:", 0, 0.40 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::green);
-	ofDrawBitmapString("UP ARROW KEY: rotates the piece if possible", 0, 0.45 * nGameboard_height * nGrid_scale);
+	verdana.drawString("UP ARROW KEY: rotates the piece if possible", 0, 0.45 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::orange);
-	ofDrawBitmapString("LEFT ARROW KEY: shifts pieces left if possible",0, 0.50 * nGameboard_height * nGrid_scale);
+	verdana.drawString("LEFT ARROW KEY: shifts pieces left if possible",0, 0.50 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::orchid);
-	ofDrawBitmapString("RIGHT ARROW KEY: shifts piece right if possible", 0, 0.55 * nGameboard_height * nGrid_scale);
+	verdana.drawString("RIGHT ARROW KEY: shifts piece right if possible", 0, 0.55 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::darkGoldenRod);
-	ofDrawBitmapString("DOWN ARROW KEY: shifts piece down if possible", 0, 0.60 * nGameboard_height * nGrid_scale);
+	verdana.drawString("DOWN ARROW KEY: shifts piece down if possible", 0, 0.60 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::chocolate);
-	ofDrawBitmapString("SPACEBAR: moves piece as far down as possible", 0, 0.65 * nGameboard_height * nGrid_scale);
+	verdana.drawString("SPACEBAR: moves piece as far down as possible", 0, 0.65 * nGameboard_height * nGrid_scale);
 }
 
 void game::drawPauseButton() {
 	ofSetColor(ofColor::magenta);
 	ofRect(pauseButton);
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("PAUSE", 1.3* ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) + 
+	verdana.drawString("PAUSE", 1.3* ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) +
 		(nGrid_scale / 2), (0.2 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 }
 
@@ -392,11 +395,11 @@ void game::drawDirectionsButton() {
 	ofRect(directionsButton);
 	ofSetColor(ofColor::white);
 	if (!needDirections) {
-		ofDrawBitmapString("HELP", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) + 
+		verdana.drawString("HELP", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) +
 			(nGrid_scale/2), (0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 	}
 	else {
-		ofDrawBitmapString("EXIT", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) +
+		verdana.drawString("EXIT", 1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) +
 			(nGrid_scale / 2),(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 	}
 }
@@ -406,15 +409,15 @@ void game::drawRestartButton() {
 	ofSetColor(ofColor::cornflowerBlue);
 	ofRect(restartButton);
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("RESTART", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	verdana.drawString("RESTART", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		(0.3 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 }
 void game::drawExitButton() {
 	ofSetColor(ofColor::orangeRed);
 	ofRect(exitButton);
 	ofSetColor(ofColor::white);
-	ofDrawBitmapString("EXIT", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight) + (nGrid_scale / 2)),
-		(0.4 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+	verdana.drawString("EXIT", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) 
+		+ (nGrid_scale / 2),(0.4 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
 }
 
 
