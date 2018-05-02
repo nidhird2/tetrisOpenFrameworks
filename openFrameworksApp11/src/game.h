@@ -7,6 +7,7 @@
 class game {
 private:
 	std::vector<std::vector<ofColor>> board;
+	std::vector<int> high_scores;
 	int lines_cleared;
 	int score_;
 	tetromino current;
@@ -37,6 +38,10 @@ public:
 	void keyReleased(int key);
 	void mousePressed(int x, int y, int button);
 private:
+	void loadHighScores();
+	void saveHighScores();
+	void drawHighScores();
+	void updateHighScores();
 	void reset();
 	bool ifInLeftBound();
 	bool ifInRightBound();

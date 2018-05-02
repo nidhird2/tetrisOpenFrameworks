@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 #include <string>
+#include <fstream>
 
 game::game() {
 	board = std::vector <std::vector<ofColor>>(nGameboard_width, std::vector <ofColor>(nGameboard_height));
@@ -16,6 +17,7 @@ game::game() {
 	isGameOver = false;
 	needDirections = false;
 	isBeginning = true;
+	loadHighScores();
 }
 
 void game::setup() {
@@ -368,13 +370,16 @@ void game::drawPauseScreen() {
 		0.20 * nGameboard_height * nGrid_scale);
 	drawRestartButton();
 	drawExitButton();
+	drawHighScores();
 }
 void game::drawGameOverScreen() {
+	updateHighScores();
 	ofSetColor(ofColor::white);
 	verdana.drawString("G A M E  O V E R", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.20 * nGameboard_height * nGrid_scale);
 	verdana.drawString("YOUR SCORE: "+ std::to_string(score_), 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.25 * nGameboard_height * nGrid_scale);
+	drawHighScores();
 	drawRestartButton();
 	drawExitButton();
 }
@@ -439,6 +444,50 @@ void game::drawExitButton() {
 	ofSetColor(ofColor::white);
 	verdana.drawString("EXIT", .4 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)) 
 		+ (nGrid_scale / 2),(0.4 * nGameboard_height * nGrid_scale) + (nGrid_scale / 2));
+}
+
+void game::drawHighScores() {
+	updateHighScores();
+	ofSetColor(ofColor::white);
+	verdana.drawString("high scores: ", 0.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.5 * nGameboard_height * nGrid_scale);
+	int index = 0;
+	for (int i = high_scores.size() - 1; i >= 0; i--) {
+		if (high_scores[i] == score_) {
+			ofSetColor(ofColor::red);
+		}
+		else {
+			ofSetColor(ofColor::white);
+		}
+		std::string current = std::to_string(high_scores[i]);
+		int y_index = (0.5 + (0.05 * (1 + index)))  * nGameboard_height * nGrid_scale;
+		verdana.drawString(current, 0.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)), y_index);
+		index++;
+	}
+}
+
+void game::loadHighScores() {
+	high_scores.clear();
+	std::string line;
+	std::ifstream file("bin/data/highscores.txt");
+
+	if (file.is_open()) {
+		while (getline(file, line)) {
+			high_scores.push_back(std::stoi(line));
+		}
+		file.close();
+	}
+}
+void game::saveHighScores() {
+
+}
+
+void game::updateHighScores() {
+	std::sort(high_scores.begin(), high_scores.end());
+	if (score_ > high_scores[0]) {
+		high_scores[0] = score_;
+		std::sort(high_scores.begin(), high_scores.end());
+	}
 }
 
 
