@@ -23,8 +23,11 @@ void game::setup() {
 	levelUpSound.load("powerUpSound.wav");
 	tone.load("tone1.wav");
 	verdana.load("verdana.ttf", 10, true, true);
-	verdana.setLineHeight(8.0f);
+	verdana.setLineHeight(18.0f);
 	verdana.setLetterSpacing(1.037);
+	verdana30.load("verdana.ttf", 30, true, true);
+	verdana30.setLineHeight(34.0f);
+	verdana30.setLetterSpacing(1.035);
 	backgroundMusic.setLoop(true);
 	backgroundMusic.play();
 	pauseButton.set(1.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
@@ -332,12 +335,30 @@ void game::drawProjection() {
 
 }
 void game::drawBeginningScreen() {
-	verdana.drawString("welcome to tetris", 0.5 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
-		0.20 * nGameboard_height * nGrid_scale);
-
-
-	verdana.drawString("press any key to start...", 0.25 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+	ofSetColor(ofColor::white);
+	verdana.drawString("Welcome to...", 0.5 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.25 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::red);
+	verdana30.drawString("T", 0.35 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
 		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::blue);
+	verdana30.drawString("E", 0.45 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::green);
+	verdana30.drawString("T", 0.55 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::yellow);
+	verdana30.drawString("R", 0.65* ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::orange);
+	verdana30.drawString("I", 0.75 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::mediumPurple);
+	verdana30.drawString("S", 0.83* ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
+		0.35 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::white);
+	verdana.drawString("press any key to start...", 0.40 * ((nGameboard_width*nGrid_scale) + 
+		(boundary_scale*boundary_weight)), 0.45 * nGameboard_height * nGrid_scale);
 
 }
 void game::drawPauseScreen() {
@@ -368,8 +389,8 @@ void game::drawDirections() {
 	verdana.drawString("erased and your score will increase. The game", 0, 0.30 * nGameboard_height * nGrid_scale);
 	verdana.drawString("ends when the block reaches the top of the screen.", 0, 0.35 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::red);
-	verdana.drawString("DIRECTIONS:", 0, 0.40 * nGameboard_height * nGrid_scale);
-	ofSetColor(ofColor::green);
+	verdana.drawString("CONTROLS:", 0, 0.40 * nGameboard_height * nGrid_scale);
+	ofSetColor(ofColor::darkGreen);
 	verdana.drawString("UP ARROW KEY: rotates the piece if possible", 0, 0.45 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::orange);
 	verdana.drawString("LEFT ARROW KEY: shifts pieces left if possible",0, 0.50 * nGameboard_height * nGrid_scale);
@@ -377,7 +398,7 @@ void game::drawDirections() {
 	verdana.drawString("RIGHT ARROW KEY: shifts piece right if possible", 0, 0.55 * nGameboard_height * nGrid_scale);
 	ofSetColor(ofColor::darkGoldenRod);
 	verdana.drawString("DOWN ARROW KEY: shifts piece down if possible", 0, 0.60 * nGameboard_height * nGrid_scale);
-	ofSetColor(ofColor::chocolate);
+	ofSetColor(ofColor::darkMagenta);
 	verdana.drawString("SPACEBAR: moves piece as far down as possible", 0, 0.65 * nGameboard_height * nGrid_scale);
 }
 
