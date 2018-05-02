@@ -127,6 +127,7 @@ void game::mousePressed(int x, int y, int button) {
 		reset();
 	} 
 	else if (exitButton.inside(x, y)) {
+		saveHighScores();
 		ofExit();
 	}
 }
@@ -447,6 +448,7 @@ void game::drawExitButton() {
 }
 
 void game::drawHighScores() {
+	//score_ = 10;
 	updateHighScores();
 	ofSetColor(ofColor::white);
 	verdana.drawString("high scores: ", 0.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
@@ -469,25 +471,37 @@ void game::drawHighScores() {
 void game::loadHighScores() {
 	high_scores.clear();
 	std::string line;
-	std::ifstream file("bin/data/highscores.txt");
+	std::ifstream high_score_file("bin/data/highscores.txt");
 
-	if (file.is_open()) {
-		while (getline(file, line)) {
+	if (high_score_file.is_open()) {
+		while (getline(high_score_file, line)) {
 			high_scores.push_back(std::stoi(line));
 		}
-		file.close();
+		high_score_file.close();
+	}
+	else {
+		high_scores = std::vector<int>(5, 0);
 	}
 }
 void game::saveHighScores() {
+	ofstream high_score_file("bin/data/highscores.txt", std::ofstream::trunc);
 
+	high_score_file.clear();
+
+	if (high_score_file.is_open()) {
+		for (int i = 0; i < high_scores.size(); i++) {
+			high_score_file << high_scores[i] << endl;
+		}
+	}
 }
 
 void game::updateHighScores() {
 	std::sort(high_scores.begin(), high_scores.end());
+
 	if (score_ > high_scores[0]) {
 		high_scores[0] = score_;
-		std::sort(high_scores.begin(), high_scores.end());
 	}
+	std::sort(high_scores.begin(), high_scores.end());
 }
 
 
