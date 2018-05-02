@@ -210,8 +210,10 @@ bool game::checkIfGameOver() {
 }
 
 void game::clearLines() {
+	int number_cleared = 0;
 	for (int j = nGameboard_height - 1; j >= 0; j--) {
 		if (checkIfFullLine(j)) {
+			number_cleared++;
 			lines_cleared++;
 			for (int current = j; current >= 1; current--) {
 				for (int i = 0; i<nGameboard_width; i++) {
@@ -226,6 +228,19 @@ void game::clearLines() {
 			}
 		}
 	}
+	if (number_cleared == 1) {
+		score_ += number_cleared * 100;
+	}
+	else if (number_cleared == 2) {
+		score_ += number_cleared * 200;
+	}
+	else if (number_cleared == 3) {
+		score_ += number_cleared * 300;
+	}
+	else if (number_cleared >= 4) {
+		score_ += number_cleared * 400;
+	}
+
 }
 
 bool game::checkIfFullLine(int j_index) {
@@ -448,7 +463,6 @@ void game::drawExitButton() {
 }
 
 void game::drawHighScores() {
-	//score_ = 10;
 	updateHighScores();
 	ofSetColor(ofColor::white);
 	verdana.drawString("high scores: ", 0.3 * ((nGameboard_width*nGrid_scale) + (boundary_scale*boundary_weight)),
@@ -486,8 +500,6 @@ void game::loadHighScores() {
 void game::saveHighScores() {
 	ofstream high_score_file("bin/data/highscores.txt", std::ofstream::trunc);
 
-	high_score_file.clear();
-
 	if (high_score_file.is_open()) {
 		for (int i = 0; i < high_scores.size(); i++) {
 			high_score_file << high_scores[i] << endl;
@@ -499,7 +511,7 @@ void game::updateHighScores() {
 	std::sort(high_scores.begin(), high_scores.end());
 
 	if (score_ > high_scores[0]) {
-		high_scores[0] = score_;
+		high_scores[4] = score_;
 	}
 	std::sort(high_scores.begin(), high_scores.end());
 }
