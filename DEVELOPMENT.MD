@@ -17,7 +17,9 @@ TO-DO:
        Also need to move starting tetromino higher on the board.
        Need to draw boundary for the gameboard.
        
-4/27 - Added a border for the gameboard for the screen (by reccomendation). Same width as the grid/tetrominos.
+4/27 - border, spacebar, fixing rotations
+
+       Added a border for the gameboard for the screen (by reccomendation). Same width as the grid/tetrominos.
        Also added spacebar functionality for a "hard drop". 
        Also changed rotating so that the pieces rotate counter-clockwise.
 
