@@ -5,7 +5,7 @@ This is a tetris game that uses openframeworks. Tetris is a game in which blocks
 # How to Run
 
 This is an openframeworks applications, meaning that openframeworks files will need to downloaded. If you have not already done so, download it here: http://openframeworks.cc/download/.
-Fork this repository into the openframeoworks folder, under the directory myApps. 
+Fork this repository into the openframeoworks folder, under the directory apps/myApps. 
 Then go to the project generator program (inside project generator directory) under the openframeworks folder. Choose a path and then run.
 Make sure ot include all of my bin/data files under bin/data. You can choose to keep my sounds or pick your own (but keep the file names the same). You can also choose to reset highscores.txt by replacing all five numbers with a zero.
 When you run the generated project, you should be on a welcome to tetris screen (with music playing in the background).
