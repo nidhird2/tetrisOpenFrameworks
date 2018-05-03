@@ -38,32 +38,35 @@ public:
 	void keyReleased(int key);
 	void mousePressed(int x, int y, int button);
 private:
+
 	void loadHighScores();
 	void saveHighScores();
 	void drawHighScores();
-	void updateHighScores();
-	void reset();
-	bool ifInLeftBound();
-	bool ifInRightBound();
-	bool checkIfAtBottom(int x, int y);
-	bool checkIfGameOver();
-	void clearLines();
-	bool checkIfFullLine(int j_index);
-	void makeNewShape();
-	void drawBeginningScreen();
 	void drawGame();
+	void drawBeginningScreen();
 	void drawPauseScreen();
-	void drawGameOverScreen();
 	void drawDirections();
+	void drawGameOverScreen();
 	void drawPauseButton();
 	void drawDirectionsButton();
 	void drawRestartButton();
 	void drawExitButton();
 	void drawBoundary();
-	void addCurrentToBoard();
-	bool checkOverlap(int x, int y);
 	void drawGameInfo();
 	void drawProjection();
+
+	void reset();
+	void updateHighScores();
+	bool checkIfGameOver();
+	void clearLines();
+	void addCurrentToBoard();
+	bool checkOverlap(int x, int y);
+
+	bool ifInLeftBound();
+	bool ifInRightBound();
+	bool checkIfAtBottom(int x, int y);
+	bool checkIfFullLine(int j_index);
+	void makeNewShape();
 };
 
 int const nGameboard_width = 10;
@@ -72,3 +75,4 @@ int const boundary_weight = 1;
 int const boundary_scale = 10;
 //ofColor const boundary_color = ofColor::white;
 int const nGrid_scale = 30;
+int const nScore_multiplier = 100;
