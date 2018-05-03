@@ -22,7 +22,7 @@ TO-DO:
        Also changed rotating so that the pieces rotate counter-clockwise.
 
 
-4/28 - Added method(s) for clearing full lines. Orginally, this was going to be split so that one method would return for a full line or -1, and another ran the method and cleared lines when int i > -1. However, this kept going into an infinite loop so I wrote a method to see if a line (at a given index) is full. This is less efficient, but still works.
+4/28 - Added method(s) for clearing full lines. Orginally, this was going to be split so that one method would return for a full line or        -1, and another ran the method and cleared lines when int i > -1. However, this kept going into an infinite loop so I wrote a           method to see if a line (at a given index) is full. This is less efficient, but still works.
       Changed tetromino data to be stored in 5x5 arrays (to account for rotating with a hinge in the middle).
 
 4/29 - Wrote code for exiting the game.
